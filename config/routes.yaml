@@ -5,3 +5,7 @@ index:
 contacto:
     path: /contacto
     controller: App\Controller\ContactoController::showForm
+
+create_contacto:
+    path: /crearcontacto
+    controller: App\Controller\ContactoController::createProduct

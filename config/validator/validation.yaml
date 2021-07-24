@@ -1,0 +1,5 @@
+# config/validator/validation.yaml
+App\Entity\Contacto:
+    properties:
+        nombre:
+            - NotBlank: ~
