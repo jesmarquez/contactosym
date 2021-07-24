@@ -14,6 +14,11 @@ new_contacto:
     path: /new-contacto
     controller: App\Controller\ContactoController::new
 
-show_hoy:
-    path: /show-hoy
-    controller: App\Controller\DefaultController::showHoy
+show_date:
+    path: /show-date/{date}
+    controller: App\Controller\DefaultController::showDate
+
+seeding_yesterday:
+    path: /seeding-yesterday
+    controller: App\Controller\DefaultController::seedingYesterday
+
