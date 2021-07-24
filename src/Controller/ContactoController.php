@@ -8,6 +8,8 @@ use App\Entity\Contacto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use \DateTime;
+use App\Form\ContactoType;
+use Symfony\Component\HttpFoundation\Request;
 
 class ContactoController extends AbstractController
 {
@@ -43,10 +45,36 @@ class ContactoController extends AbstractController
             return new Response((string) $errors, 400);
         }
         
-
-
-
-
         return new Response('Saved new contact with id '.$contacto->getId());
+    }
+
+
+    public function new(Request $request): Response
+    {
+
+
+        $contacto = new Contacto();
+
+        $form = $this->createForm(ContactoType::class, $contacto);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $contacto = $form->getData();
+            date_default_timezone_set('America/Bogota');
+
+            $hoy = new \DateTime();
+            $contacto->setCreado($hoy);
+            $contacto->setActualizado($hoy);
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($contacto);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('index');
+        }
+        return $this->render('contacto.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

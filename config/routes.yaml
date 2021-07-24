@@ -9,3 +9,11 @@ contacto:
 create_contacto:
     path: /crearcontacto
     controller: App\Controller\ContactoController::createProduct
+
+new_contacto:
+    path: /new-contacto
+    controller: App\Controller\ContactoController::new
+
+show_hoy:
+    path: /show-hoy
+    controller: App\Controller\DefaultController::showHoy
