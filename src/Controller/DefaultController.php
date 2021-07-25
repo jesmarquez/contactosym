@@ -19,12 +19,22 @@ class DefaultController extends AbstractController
 
     public function showDate($date): Response
     { 
+        date_default_timezone_set('America/Bogota');
+        if ($date == 'NOW') {
+            $date1 = new \DateTime('NOW');
+            $date1->setTime(0,0,0);
 
-        $date1 = new \DateTime($date);
-        $date1->setTime(0,0,0);
+            $date2 = new \DateTime('NOW');
+            $date2->setTime(23,59,59);
 
-        $date2 = new \DateTime($date);
-        $date2->setTime(23,59,59);
+        } else {
+            $date1 = new \DateTime($date);
+            $date1->setTime(0,0,0);
+
+            $date2 = new \DateTime($date);
+            $date2->setTime(23,59,59);
+        }
+
 
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(

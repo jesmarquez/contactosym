@@ -9,7 +9,14 @@
 
             </div>
             <div class="col">
+                {% for message in app.flashes('notice') %}
+                    <div class="alert alert-warning" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
                 {{ form_start(form) }}
+                    
                     <div class="mb-3">
                         {{ form_row(form.nombre) }}
                     </div>
@@ -24,6 +31,13 @@
                     </div>
                     <div class="mb-3">
                         {{ form_row(form.area) }}
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="contacto_mensaje" class="required">Mensaje</label>
+                            <textarea id="contacto_mensaje" name="contacto[mensaje]" rows="4" cols="60" class="form-control"></textarea>
+                        </div>
+                        {{ form_errors(form.mensaje) }}
                     </div>
                     {{ form_row(form._token) }}
                     <button type="submit" class="btn btn-primary">Submit</button>

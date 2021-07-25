@@ -52,6 +52,11 @@ class Contacto
      */
     private $actualizado;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $mensaje;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +142,18 @@ class Contacto
     public function setActualizado(\DateTimeInterface $actualizado): self
     {
         $this->actualizado = $actualizado;
+
+        return $this;
+    }
+
+    public function getMensaje(): ?string
+    {
+        return $this->mensaje;
+    }
+
+    public function setMensaje(string $mensaje): self
+    {
+        $this->mensaje = $mensaje;
 
         return $this;
     }

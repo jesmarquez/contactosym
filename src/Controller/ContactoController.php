@@ -49,7 +49,7 @@ class ContactoController extends AbstractController
     }
 
 
-    public function new(Request $request): Response
+    public function new(Request $request, ValidatorInterface $validator): Response
     {
 
 
@@ -62,6 +62,40 @@ class ContactoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $contacto = $form->getData();
             date_default_timezone_set('America/Bogota');
+
+            $date1 = new \DateTime('NOW');
+            $date1->setTime(0,0,0);
+
+            $date2 = new \DateTime('NOW');
+            $date2->setTime(23,59,59);
+
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery(
+                'SELECT c
+                FROM App\Entity\Contacto c
+                WHERE c.creado BETWEEN :date1
+                AND :date2
+                ORDER BY c.creado ASC'
+            )->setParameter('date1', $date1)
+            ->setParameter('date2', $date2);
+
+            // returns an array of Product objects
+            $rows = $query->getResult();
+            foreach($rows as $r) {
+                if ($r->getCorreo() == $contacto->getCorreo()) {
+                    $this->addFlash(
+                        'notice',
+                        'Lo siento, usted ya envio un mensaje en el día de hoy.'
+                    );
+                    return $this->redirectToRoute('new_contacto', ['has' => 'yes']);
+                }
+            }
+
+
+            $errors = $validator->validate($contacto);
+            if (count($errors) > 0) {
+                return new Response((string) $errors, 400);
+            }
 
             $hoy = new \DateTime();
             $contacto->setCreado($hoy);
