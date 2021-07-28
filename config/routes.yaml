@@ -2,21 +2,9 @@ index:
     path: /
     controller: App\Controller\DefaultController::index
     
-contacto:
-    path: /contacto
-    controller: App\Controller\ContactoController::showForm
-
-create_contacto:
-    path: /crearcontacto
-    controller: App\Controller\ContactoController::createProduct
-
 new_contacto:
     path: /new-contacto
     controller: App\Controller\ContactoController::new
-
-show_date:
-    path: /show-date/{date}
-    controller: App\Controller\DefaultController::showDate
 
 seeding_yesterday:
     path: /seeding-yesterday

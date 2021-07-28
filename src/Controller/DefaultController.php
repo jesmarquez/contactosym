@@ -17,48 +17,7 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    public function showDate($date): Response
-    { 
-        date_default_timezone_set('America/Bogota');
-        if ($date == 'NOW') {
-            $date1 = new \DateTime('NOW');
-            $date1->setTime(0,0,0);
-
-            $date2 = new \DateTime('NOW');
-            $date2->setTime(23,59,59);
-
-        } else {
-            $date1 = new \DateTime($date);
-            $date1->setTime(0,0,0);
-
-            $date2 = new \DateTime($date);
-            $date2->setTime(23,59,59);
-        }
-
-
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT c
-            FROM App\Entity\Contacto c
-            WHERE c.creado BETWEEN :date1
-            AND :date2
-            ORDER BY c.creado ASC'
-        )->setParameter('date1', $date1)
-        ->setParameter('date2', $date2);
-
-        // returns an array of Product objects
-        $rows = $query->getResult();
-        
-        $strHtml= '<html><body>';
-        foreach($rows as $r) {
-
-            $strHtml = $strHtml . $r->getCreado()->format('Y/m/d H:i:s') . '-' . $r->getCorreo() .'<br>';
-        }
-
-        return new Response($strHtml);
-    }
-
-    public function seedingYesterday(): Response
+     public function seedingYesterday(): Response
     {
         date_default_timezone_set('America/Bogota');
         
